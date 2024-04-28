@@ -40,7 +40,14 @@ export class AppController {
 
   getUsers = async (req: Request, res: Response) => {
     try {
-      const users = await fileModel.find();
+      const params = req.query.q;
+      let users;
+      if (params) {
+        //Look for users that match the query
+        users = await fileModel.find({ name: new RegExp(params.toString(), 'i') });
+      } else {
+        users = await fileModel.find();
+      }
       res.status(200).json(users);
     } catch (error) {
       this.handleError(error, res);
