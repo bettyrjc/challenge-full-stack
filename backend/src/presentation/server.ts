@@ -1,5 +1,7 @@
 import path from "path";
 import express, { Router } from "express";
+import cors from "cors";
+
 interface Options {
   port: number;
   routes: Router;
@@ -22,6 +24,7 @@ export class Server {
 
   async start() {
     //* Middlewares
+    this.app.use(cors());
     //* Public Folder
     this.app.use(express.static(this.publicPath));
 
